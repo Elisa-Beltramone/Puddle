@@ -53,7 +53,7 @@ def detail(request, pk):
     conversation = Conversation.objects.filter(members__in=[request.user.id]).get(pk=pk)
 
     if request.method == 'POST':
-        form = ConversationMessageForm(request.Post)
+        form = ConversationMessageForm(request.POST)
 
         if form.is_valid():
             conversation_message = form.save(commit=False)
@@ -64,16 +64,11 @@ def detail(request, pk):
             conversation.save()
 
             return redirect('conversation:detail', pk=pk)
-        else:
-            form = ConversationMessageForm()
-
-
+    else:
+        form = ConversationMessageForm()
 
     return render(request, 'conversation/detail.html', {
-        'conversation': conversation
+        'conversation': conversation,
         'form': form
     })
-
-
-        
 
